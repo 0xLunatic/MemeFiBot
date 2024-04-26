@@ -297,7 +297,7 @@ class Tapper:
                                    f"Balance: <c>{balance}</c> (<g>+{calc_taps}</g>) | "
                                    f"Boss health: <e>{boss_current_health}</e>")
                     
-                    if calc_taps >= 0:
+                    if calc_taps >= 1:
                         now = datetime.now()
 
 
