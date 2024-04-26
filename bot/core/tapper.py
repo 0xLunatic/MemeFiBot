@@ -18,6 +18,7 @@ from bot.exceptions import InvalidSession
 from .headers import headers
 
 from discord_webhook import DiscordWebhook, DiscordEmbed
+from datetime import datetime
 
 
 class Tapper:
@@ -296,12 +297,16 @@ class Tapper:
                                    f"Balance: <c>{balance}</c> (<g>+{calc_taps}</g>) | "
                                    f"Boss health: <e>{boss_current_health}</e>")
                     
-                    if calc_taps >= 1:
-                        from discord_webhook import DiscordWebhook, DiscordEmbed
+                    if calc_taps >= 0:
+                        now = datetime.now()
+
+
+                        formatted_date_time = now.strftime("%d/%m/%Y %H:%M:%S")
+
 
                         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1233434636126912563/VXUIsS5fWMm2dSrUsYmyrccZWQAtSE0E4PvOelM2S-JgYxwvDvuFiEpQV4Ak9uMDzCRh")
                         # you can set the color as a decimal (color=242424) or hex (color="03b2f8") number
-                        embed = DiscordEmbed(title=f"Successfully Tapped! #{self.session_name}", description=f"**Boss Max Health: {boss_max_health}** (**Lv. {current_boss_level}**)\n **Boss Health:** {boss_current_health}\n **Balance:** {balance}\n **Hit Total:** +*{calc_taps} HITS* \n**Boss health:** {boss_current_health}", color="03b2f8")
+                        embed = DiscordEmbed(title=f"Successfully Tapped! #{self.session_name}", description=f"**Boss Max Health: {boss_max_health}** (**Lv. {current_boss_level}**)\n **Boss Health:** {boss_current_health}\n **Balance:** {balance}\n **Hit Total:** +*{calc_taps} HITS* \n**Boss health:** {boss_current_health}\n\n **DATE :** {formatted_date_time}", color="03b2f8")
 
                         # add embed object to webhook
                         webhook.add_embed(embed)
