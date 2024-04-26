@@ -19,6 +19,7 @@ from .headers import headers
 
 from discord_webhook import DiscordWebhook, DiscordEmbed
 from datetime import datetime
+import pytz
 
 
 class Tapper:
@@ -298,10 +299,16 @@ class Tapper:
                                    f"Boss health: <e>{boss_current_health}</e>")
                     
                     if calc_taps >= 1:
-                        now = datetime.now()
+                       # Get the current time in UTC
 
+                        # Specify the Jakarta timezone
+                        jakarta_timezone = pytz.timezone('Asia/Jakarta')
 
-                        formatted_date_time = now.strftime("%d/%m/%Y %H:%M:%S")
+                        # Convert UTC time to Jakarta time
+                        now_jakarta = datetime.now(jakarta_timezone)
+
+                        # Format the date and time as desired
+                        formatted_date_time = now_jakarta.strftime("%d/%m/%Y %H:%M:%S")
 
 
                         webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1233434636126912563/VXUIsS5fWMm2dSrUsYmyrccZWQAtSE0E4PvOelM2S-JgYxwvDvuFiEpQV4Ak9uMDzCRh")
