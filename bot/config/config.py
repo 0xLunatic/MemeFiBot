@@ -27,5 +27,7 @@ class Settings(BaseSettings):
 
     USE_PROXY_FROM_FILE: bool = False
 
+    DISCORD_WEBHOOK: str = ""
+
 
 settings = Settings()

@@ -299,26 +299,27 @@ class Tapper:
                                    f"Boss health: <e>{boss_current_health}</e>")
                     
                     if calc_taps >= 1:
-                       # Get the current time in UTC
+                        if settings.DISCORD_WEBHOOK:
+                            # Specify the Jakarta timezone
+                            jakarta_timezone = pytz.timezone('Asia/Jakarta')
 
-                        # Specify the Jakarta timezone
-                        jakarta_timezone = pytz.timezone('Asia/Jakarta')
+                            # Convert UTC time to Jakarta time
+                            now_jakarta = datetime.now(jakarta_timezone)
 
-                        # Convert UTC time to Jakarta time
-                        now_jakarta = datetime.now(jakarta_timezone)
-
-                        # Format the date and time as desired
-                        formatted_date_time = now_jakarta.strftime("%d/%m/%Y %H:%M:%S")
+                            # Format the date and time as desired
+                            formatted_date_time = now_jakarta.strftime("%d/%m/%Y %H:%M:%S")
 
 
-                        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1233434636126912563/VXUIsS5fWMm2dSrUsYmyrccZWQAtSE0E4PvOelM2S-JgYxwvDvuFiEpQV4Ak9uMDzCRh")
-                        # you can set the color as a decimal (color=242424) or hex (color="03b2f8") number
-                        embed = DiscordEmbed(title=f"Successfully Tapped! #{self.session_name}", description=f"**Boss Max Health: {boss_max_health}** (**Lv. {current_boss_level}**)\n **Boss Health:** {boss_current_health}\n **Balance:** {balance}\n **Hit Total:** +*{calc_taps} HITS* \n**Boss health:** {boss_current_health}\n\n **DATE :** {formatted_date_time}", color="03b2f8")
+                            webhook = DiscordWebhook(url=settings.DISCORD_WEBHOOK)
+                            # you can set the color as a decimal (color=242424) or hex (color="03b2f8") number
+                            embed = DiscordEmbed(title=f"Successfully Tapped! #{self.session_name}", description=f"**Boss Max Health: {boss_max_health}** (**Lv. {current_boss_level}**)\n **Boss Health:** {boss_current_health}\n **Balance:** {balance}\n **Hit Total:** +*{calc_taps} HITS*\n\n **DATE :** {formatted_date_time}", color="03b2f8")
 
-                        # add embed object to webhook
-                        webhook.add_embed(embed)
+                            # add embed object to webhook
+                            webhook.add_embed(embed)
 
-                        response = webhook.execute()
+                            response = webhook.execute()
+                        else:
+                            logger.info(f"{self.session_name} | Discord Webhook is not set!")
 
 
                     if boss_current_health <= 0:
